@@ -1,11 +1,15 @@
-import { SidebarItem } from "../SidebarItem";
+"use client";
+
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+
+import { SidebarItem } from "../SidebarItem";
+
 import {
   dataGeneralSidebar,
   dataToolsSidebar,
   dataSupportSidebar,
 } from "./SidebarRoutes.data";
-import { Button } from "../ui/button";
 
 export function SidebarRoutes() {
   return (
