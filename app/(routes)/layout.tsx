@@ -8,7 +8,7 @@ export default function LayoutDashboard({
 }) {
   return (
     <div className="flex w-full h-full">
-      <div className="hidden xl:block w-80 h-full xk:fixed">
+      <div className="hidden xl:block w-80 h-full xl:fixed">
         <Sidebar />
       </div>
       <div className="w-full xl:ml-80">
