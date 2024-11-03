@@ -6,7 +6,7 @@ export function Sidebar() {
   return (
     <div className="h-screen">
         <div className="h-full flex flex-col border-r">
-            <p><Logo/></p>
+            <Logo/>
             <SidebarRoutes />
         </div>
 
