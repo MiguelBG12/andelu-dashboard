@@ -2,7 +2,7 @@ import { CustomIcon } from "@/components/CustomIcon";
 import { CardSummaryProps } from "./CardSummary.types";
 import { CustomTooltip } from "@/components/CustomTooltip";
 import { cn } from "@/lib/utils";
-import { MoveDownRight, MoveUpLeft, MoveUpRight, TrendingUp } from "lucide-react";
+import { MoveDownRight, MoveUpRight, TrendingUp } from "lucide-react";
 
 export function CardSummary(props: CardSummaryProps) {
   const { icon: Icon, total, average, title, tooltipText } = props;
