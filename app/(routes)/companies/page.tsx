@@ -1,9 +1,9 @@
-import React from 'react'
+import { HeaderCompanies } from './components/HeaderCompanies'
 
 export default function CompaniesPage() {
   return (
     <div>
-        <p>Header</p>
+        <HeaderCompanies />
         <p>List companies</p>
     </div>
   )
