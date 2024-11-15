@@ -43,7 +43,7 @@ export const columns: ColumnDef<Company>[] = [
     },
   },
   {
-    accessorKey: "ruc",
+    accessorKey: "RUC",
     header: "RUC",
   },
   {
