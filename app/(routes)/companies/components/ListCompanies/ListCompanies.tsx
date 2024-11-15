@@ -4,6 +4,9 @@ import { auth } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
 
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
+
 export async function ListCompanies() {
   const { userId } = auth();
   if (!userId) {
@@ -19,7 +22,9 @@ export async function ListCompanies() {
     },
   });
 
-  console.log(companies)
+  console.log(companies);
 
-  return <div>ListCompanies</div>;
+  return (
+    <DataTable columns={columns} data={companies} />
+  )
 }
