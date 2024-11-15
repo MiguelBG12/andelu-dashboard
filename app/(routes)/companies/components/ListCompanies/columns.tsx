@@ -43,8 +43,8 @@ export const columns: ColumnDef<Company>[] = [
     },
   },
   {
-    accessorKey: "dni",
-    header: "DNI",
+    accessorKey: "ruc",
+    header: "RUC",
   },
   {
     accessorKey: "phone",

@@ -34,7 +34,7 @@ const formSchema = z.object({
   country: z.string().min(2),
   website: z.string().min(2),
   phone: z.string().min(9),
-  DNI: z.string().min(8),
+  RUC: z.string().min(11),
   profileImage: z.string(),
 });
 
@@ -50,7 +50,7 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
       country: "",
       website: "",
       phone: "",
-      DNI: "",
+      RUC: "",
       profileImage: "",
     },
   });
@@ -152,12 +152,12 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
             />
             <FormField
               control={form.control}
-              name="DNI"
+              name="RUC"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>DNI</FormLabel>
+                  <FormLabel>RUC</FormLabel>
                   <FormControl>
-                    <Input placeholder="08857205" type="number" {...field} />
+                    <Input placeholder="10089863029" type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
