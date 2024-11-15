@@ -110,6 +110,7 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
                       <SelectItem value="chile">Chile</SelectItem>
                       <SelectItem value="colombia">Colombia</SelectItem>
                       <SelectItem value="peru">Peru</SelectItem>
+                      <SelectItem value="mexico">Mexico</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
