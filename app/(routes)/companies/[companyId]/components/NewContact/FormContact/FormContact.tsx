@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Toast } from "@/components/ui/toast";
+import { toast } from "@/hooks/use-toast";
 
 import { FormContactProps } from "./FormContact.types";
 import { formSchema } from "./FormContact.form";
@@ -32,7 +32,7 @@ import { formSchema } from "./FormContact.form";
 export function FormContact(props: FormContactProps) {
   const { setOpen } = props;
 
-  const params = useParams<{ companyId: string }>;
+  const params = useParams<{ companyId: string }>();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,14 +46,24 @@ export function FormContact(props: FormContactProps) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("On submit");
+    try {
+      axios.post(`/apy/company/${params.companyId}/contact`, values);
+      toast({ title: "Contact created!" });
+      router.refresh();
+      setOpen(false);
+    } catch (error) {
+      toast({
+        title: "There was an error",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 md:grid-cols"
+        className="grid gap-4 md:grid-cols-2"
       >
         <FormField
           control={form.control}
@@ -67,6 +77,54 @@ export function FormContact(props: FormContactProps) {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="email@email.com" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone</FormLabel>
+              <FormControl>
+                <Input placeholder="+51 999 999 999" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Role</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select the role" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Comercial">Comercial</SelectItem>
+                  <SelectItem value="CEO">CEO</SelectItem>
+                  <SelectItem value="Quality">Customer Service</SelectItem>
+                  <SelectItem value="Analytics">Analytics</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Save Contact</Button>
       </form>
     </Form>
   );
