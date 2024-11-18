@@ -25,7 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Toast } from "@/components/ui/toast";
 
 import { UploadButton } from "@/utils/uploadthing";
 
@@ -53,7 +52,18 @@ export function CompanyForm(props: CompanyFormProps) {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("on submit");
+    try {
+      await axios.patch(`/api/company/${company.id}`, values);
+      toast({
+        title: "Company uploaded!",
+      });
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
