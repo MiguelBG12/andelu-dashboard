@@ -47,7 +47,7 @@ export function FormContact(props: FormContactProps) {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      axios.post(`/apy/company/${params.companyId}/contact`, values);
+      axios.post(`/api/company/${params.companyId}/contact`, values);
       toast({ title: "Contact created!" });
       router.refresh();
       setOpen(false);
