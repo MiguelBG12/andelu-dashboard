@@ -43,8 +43,9 @@ export function Calendar(props: CalendarProps) {
   return (
     <div>
       <div className="md:flex gap-x-3">
-        <div className="2-[200px] relative">
-          <div className="overflow-auto absolute left-0 top-0 h-full w-full">
+        <div className="w-[200px] relative">
+          <div className="absolute top-0 left-0 h-full w-full overflow-auto">
+            <p className="mb-3 text-xl">Tasks list</p>
             {events.map((currentEvent) => (
               <div
                 key={currentEvent.id}
@@ -66,7 +67,7 @@ export function Calendar(props: CalendarProps) {
               multiMonthPlugin,
             ]}
             headerToolbar={{
-            left: "prev, next today",
+            left: "prev, next, today",
             center: "title",
             right: "timeGridDay, timeGridWeek, dayGridMonth, multiMonthYear, listMonth"
             }}
