@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ModalAddEventProps } from "./ModalAddEvent.type";
+import { FormEvent } from "../FormEvent";
 
 export function ModalAddEvent(props: ModalAddEventProps) {
   const { open, companies, setNewEvent, setOnSaveNewEvent, setOpen } = props;
@@ -16,7 +17,12 @@ export function ModalAddEvent(props: ModalAddEventProps) {
             <DialogHeader>
                 <DialogTitle>Add a new event</DialogTitle>
             </DialogHeader>
-            <p>Form</p>
+            <FormEvent 
+              setOnSaveNewEvent={setOnSaveNewEvent}
+              companies={companies}
+              setNewEvent={setNewEvent}
+              setOpen={setOpen}
+            />
         </DialogContent>
     </Dialog>
   )
