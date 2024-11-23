@@ -17,6 +17,7 @@ import { formatDate } from "@/lib/formatDate";
 
 import { CalendarProps } from "./Calendar.types";
 import { ModalAddEvent } from "../ModalAddEvent";
+import { toast } from "@/hooks/use-toast";
 
 export function Calendar(props: CalendarProps) {
   const { companies, events } = props;
@@ -37,9 +38,50 @@ export function Calendar(props: CalendarProps) {
     setSelectedItem(selected);
   };
 
+  useEffect(() => {
+    if (onSaveNewEvent && selectedItem?.view.calendar) {
+      const calendarApi = selectedItem.view.calendar;
+      calendarApi.unselect();
+
+      const newEventPrisma = {
+        companyId: newEvent.companieSelected.id,
+        title: newEvent.eventName,
+        start: new Date(selectedItem.start),
+        allDay: false,
+        timeFormat: "H(:mm)",
+      };
+
+      axios
+        .post(
+          `/api/company/${newEvent.companieSelected.id}/event`,
+          newEventPrisma
+        )
+        .then(() => {
+          toast({ title: "Event created" });
+          router.refresh();
+        })
+        .catch(error => {
+          toast({
+            title: "Error creating event",
+            variant: "destructive"
+          })
+        })
+
+        setNewEvent({
+          eventName: "",
+          companieSelected: {
+            name: "",
+            id: "",
+          }
+        })
+        setOnSaveNewEvent(false)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onSaveNewEvent, selectedItem, event]);
+
   const handleEventClick = () => {
-    console.log("event")
-  }
+    console.log("event");
+  };
 
   return (
     <div>
@@ -68,12 +110,13 @@ export function Calendar(props: CalendarProps) {
               multiMonthPlugin,
             ]}
             headerToolbar={{
-            left: "prev, next, today",
-            center: "title",
-            right: "timeGridDay, timeGridWeek, dayGridMonth, multiMonthYear, listMonth"
+              left: "prev, next, today",
+              center: "title",
+              right:
+                "timeGridDay, timeGridWeek, dayGridMonth, multiMonthYear, listMonth",
             }}
             height="80vh"
-            initialView='dayGridMonth'
+            initialView="dayGridMonth"
             weekends={false}
             events={events}
             eventContent={renderEventContent}
@@ -101,5 +144,5 @@ function renderEventContent(eventInfo: EventContentArg) {
     <div className="2-full p-1 bg-slate-200 dark:bg-background">
       <i>{eventInfo.event.title}</i>
     </div>
-  )
+  );
 }
