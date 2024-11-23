@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, UseFormClearErrors } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Input } from "@/components/ui/input";
@@ -69,6 +69,8 @@ export function FormEvent(props: FormEventProps) {
         name: selectedCompany.name,
         id: selectedCompany.id,
       });
+      form.setValue("companieSelected.name", selectedCompany.name)
+      form.setValue("companieSelected.id", selectedCompany.id)
     }
   };
   return <div>FormEvent</div>;
