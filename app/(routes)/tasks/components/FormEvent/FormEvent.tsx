@@ -69,9 +69,27 @@ export function FormEvent(props: FormEventProps) {
         name: selectedCompany.name,
         id: selectedCompany.id,
       });
-      form.setValue("companieSelected.name", selectedCompany.name)
-      form.setValue("companieSelected.id", selectedCompany.id)
+      form.setValue("companieSelected.name", selectedCompany.name);
+      form.setValue("companieSelected.id", selectedCompany.id);
     }
   };
-  return <div>FormEvent</div>;
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="eventName"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Meeting..." {...field} />
+              </FormControl>
+              <FormDescription>This is your event name</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
+  );
 }
