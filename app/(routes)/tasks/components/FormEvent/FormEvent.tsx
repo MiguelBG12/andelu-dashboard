@@ -89,6 +89,37 @@ export function FormEvent(props: FormEventProps) {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="companieSelected.name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Company name</FormLabel>
+              <Select
+                onValueChange={(newValue) => {
+                  field.onChange(newValue);
+                  handleCompanyChange(newValue);
+                }}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a company" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {companies.map((companie) => (
+                    <SelectItem key={companie.id} value={companie.name}>
+                      {companie.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Create event</Button>
       </form>
     </Form>
   );
