@@ -16,6 +16,7 @@ import axios from "axios";
 import { formatDate } from "@/lib/formatDate";
 
 import { CalendarProps } from "./Calendar.types";
+import { ModalAddEvent } from "../ModalAddEvent";
 
 export function Calendar(props: CalendarProps) {
   const { companies, events } = props;
@@ -84,6 +85,13 @@ export function Calendar(props: CalendarProps) {
           />
         </div>
       </div>
+      <ModalAddEvent
+        open={open}
+        setOpen={setOpen}
+        setOnSaveNewEvent={setOnSaveNewEvent}
+        companies={companies}
+        setNewEvent={setNewEvent}
+      />
     </div>
   );
 }
