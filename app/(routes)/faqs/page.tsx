@@ -1,3 +1,5 @@
+import { AccordionFaqs } from "./components/AccordionFaqs";
+
 export default function PageFaqs() {
   return (
     <div className="max-w-4xl mx-auto bg-background shadow-md rounded-lg p-6">
@@ -29,6 +31,7 @@ export default function PageFaqs() {
           la eficiencia y el éxito de tu empresa.
         </p>
       </div>
+      <AccordionFaqs />
     </div>
   );
 }
