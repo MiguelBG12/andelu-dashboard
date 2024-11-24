@@ -86,7 +86,7 @@ export function Calendar(props: CalendarProps) {
       )
     ) {
       try {
-        axios.delete(`/api/event/${selected.event._def.publicId}`);
+        await axios.delete(`/api/event/${selected.event._def.publicId}`);
         toast({ title: "Event deleted" });
         router.refresh();
       } catch (error) {
@@ -107,7 +107,7 @@ export function Calendar(props: CalendarProps) {
             {events.map((currentEvent) => (
               <div
                 key={currentEvent.id}
-                className="p-4 rounded-lg shadow-sm mb-2 bg-slate-200 dark:bg-back"
+                className="p-4 rounded-lg shadow-md mb-2 bg-slate-200 dark:bg-background"
               >
                 <p className="font-bold">{currentEvent.title}</p>
                 <p>{formatDate(currentEvent.start)}</p>
