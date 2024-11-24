@@ -60,27 +60,42 @@ export function Calendar(props: CalendarProps) {
           toast({ title: "Event created" });
           router.refresh();
         })
-        .catch(error => {
+        .catch((error) => {
           toast({
             title: "Error creating event",
-            variant: "destructive"
-          })
-        })
+            variant: "destructive",
+          });
+        });
 
-        setNewEvent({
-          eventName: "",
-          companieSelected: {
-            name: "",
-            id: "",
-          }
-        })
-        setOnSaveNewEvent(false)
+      setNewEvent({
+        eventName: "",
+        companieSelected: {
+          name: "",
+          id: "",
+        },
+      });
+      setOnSaveNewEvent(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSaveNewEvent, selectedItem, event]);
 
-  const handleEventClick = () => {
-    console.log("event");
+  const handleEventClick = async (selected: any) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete this event ${selected.event.title}`
+      )
+    ) {
+      try {
+        axios.delete(`/api/event/${selected.event._def.publicId}`);
+        toast({ title: "Event deleted" });
+        router.refresh();
+      } catch (error) {
+        toast({
+          title: "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
