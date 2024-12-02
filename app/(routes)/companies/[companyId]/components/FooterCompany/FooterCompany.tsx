@@ -16,7 +16,8 @@ export function FooterCompany(props: FooterCompanyProps) {
 
   const onDeleteCompany = async () => {
     try {
-      axios.delete(`/api/company/${companyId}`);
+      await axios.delete(`/api/company/${companyId}`);
+      toast({ title: "Company deleted" });
       router.push("/companies");
     } catch (error) {
       toast({
