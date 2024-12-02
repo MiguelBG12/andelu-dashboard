@@ -12,7 +12,7 @@ export function Logo() {
       onClick={() => router.push("/")}
     >
       <Image src="/logo.svg" alt="Logo" width={30} height={30} priority />
-      <h1 className="font-bold text-xl">Andelu</h1>
+      <h1 className="font-bold text-xl">MiguelBautista</h1>
     </div>
   );
 }
