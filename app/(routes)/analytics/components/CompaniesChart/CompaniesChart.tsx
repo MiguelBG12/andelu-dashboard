@@ -28,7 +28,7 @@ export function CompaniesChart(props: CompaniesChartProps) {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="eventsByCompany" fill='#8884d8' />
+                <Bar dataKey="eventsByCompany" fill='#2a9d8f' />
             </BarChart>
         </ResponsiveContainer>
     </div>

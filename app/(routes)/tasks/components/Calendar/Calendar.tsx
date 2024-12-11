@@ -132,7 +132,8 @@ export function Calendar(props: CalendarProps) {
             }}
             height="80vh"
             initialView="dayGridMonth"
-            weekends={false}
+            weekends={true}
+            hiddenDays={[0]}
             events={events}
             eventContent={renderEventContent}
             editable={true}

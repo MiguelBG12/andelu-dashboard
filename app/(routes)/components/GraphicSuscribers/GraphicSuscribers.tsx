@@ -32,8 +32,8 @@ export function GraphicSuscribers() {
           >
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#887CFD" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#887CFD" stopOpacity={0} />
+                <stop offset="5%" stopColor="#0077b6" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#0077b6" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
@@ -46,7 +46,7 @@ export function GraphicSuscribers() {
             <Area
               type="monotone"
               dataKey="newCustomers"
-              stroke="#887CFD"
+              stroke="#0077b6"
               fillOpacity={1}
               fill="url(#colorUv)"
             />
