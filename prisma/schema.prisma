@@ -20,6 +20,7 @@ model Company {
   name String @db.Text
   description String? @db.Text
   profileImage String @db.Text
+  generatedImage String? @db.Text
   RUC String @db.Text
   phone String @db.Text
   country String @db.Text
