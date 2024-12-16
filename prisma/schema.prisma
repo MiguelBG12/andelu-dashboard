@@ -21,7 +21,7 @@ model Company {
   description String? @db.Text
   logoCompany String @db.Text
   uniformCompany String? @db.Text
-  RUC String @db.Text
+  CIF String @db.Text
   phone String @db.Text
   country String @db.Text
   website String @db.Text
