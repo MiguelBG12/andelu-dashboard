@@ -19,8 +19,8 @@ model Company {
   userId String
   name String @db.Text
   description String? @db.Text
-  profileImage String @db.Text
-  generatedImage String? @db.Text
+  logoCompany String @db.Text
+  uniformCompany String? @db.Text
   RUC String @db.Text
   phone String @db.Text
   country String @db.Text
