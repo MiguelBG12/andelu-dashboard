@@ -18,10 +18,10 @@ import Image from "next/image";
 
 export const columns: ColumnDef<Company>[] = [
   {
-    accessorKey: "profileImage",
-    header: "Profile Image",
+    accessorKey: "logoCompany",
+    header: "Logo",
     cell: ({row}) => {
-        const image = row.getValue("profileImage")
+        const image = row.getValue("logoCompany")
 
         return (
             <div className="px-3">
@@ -43,8 +43,8 @@ export const columns: ColumnDef<Company>[] = [
     },
   },
   {
-    accessorKey: "RUC",
-    header: "RUC",
+    accessorKey: "CIF",
+    header: "CIF",
   },
   {
     accessorKey: "phone",

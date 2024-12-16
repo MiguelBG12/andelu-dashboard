@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-import { UploadButton } from "@/utils/uploadthing";
+import { CldUploadWidget } from 'next-cloudinary';
 
 import { CompanyFormProps } from "./CompanyForm.types";
 import { formSchema } from "./CompanyForm.form";
@@ -36,7 +36,8 @@ export function CompanyForm(props: CompanyFormProps) {
   const { company } = props;
   const router = useRouter();
 
-  const [photoUploaded, setPhotoUploaded] = useState(false);
+  const [logoUploaded, setLogoUploaded] = useState(false);
+  const [uniformUploaded, setUniformUploaded] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,10 +47,18 @@ export function CompanyForm(props: CompanyFormProps) {
       country: company.country,
       website: company.website,
       phone: company.phone,
-      RUC: company.RUC,
-      profileImage: company.profileImage,
+      CIF: company.CIF,
+      logoCompany: company.logoCompany,
+      uniformCompany: company.uniformCompany
     },
   });
+
+  const handleUpload = (type: "logoCompany" | "uniformCompany", url: string) => {
+    form.setValue(type, url);
+    toast({ title: `${type === "logoCompany" ? "Logo" : "Uniform"} image uploaded!` });
+    if (type === "logoCompany") setLogoUploaded(true);
+    else setUniformUploaded(true);
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -69,7 +78,7 @@ export function CompanyForm(props: CompanyFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
             name="name"
@@ -79,35 +88,6 @@ export function CompanyForm(props: CompanyFormProps) {
                 <FormControl>
                   <Input placeholder="Company name" type="text" {...field} />
                 </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="country"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="argentina">Argentina</SelectItem>
-                    <SelectItem value="brasil">Brasil</SelectItem>
-                    <SelectItem value="usa">USA</SelectItem>
-                    <SelectItem value="chile">Chile</SelectItem>
-                    <SelectItem value="colombia">Colombia</SelectItem>
-                    <SelectItem value="peru">Peru</SelectItem>
-                    <SelectItem value="mexico">Mexico</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -147,12 +127,12 @@ export function CompanyForm(props: CompanyFormProps) {
           />
           <FormField
             control={form.control}
-            name="RUC"
+            name="CIF"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>RUC</FormLabel>
+                <FormLabel>CIF</FormLabel>
                 <FormControl>
-                  <Input placeholder="20458575108" type="number" {...field} />
+                  <Input placeholder="B-1234567" type="text" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,32 +140,51 @@ export function CompanyForm(props: CompanyFormProps) {
           />
           <FormField
             control={form.control}
-            name="profileImage"
+            name="logoCompany"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Profile Image</FormLabel>
+                <FormLabel>Logo company</FormLabel>
                 <FormControl>
-                  <div>
-                    {photoUploaded ? (
-                      <p className="text-sm">Image uploaded</p>
-                    ) : (
-                      <UploadButton
-                        className="bg-slate-600/20 text-slate-800 rounded-lg
-                      outline-dotted outline-3"
-                        {...field}
-                        endpoint="profileImage"
-                        onClientUploadComplete={(res) => {
-                          form.setValue("profileImage", res?.[0].url);
-                          setPhotoUploaded(true);
-                        }}
-                        onUploadError={(error: Error) => {
-                          toast({ title: "Error uploading photo" });
-                        }}
-                      />
+                  <CldUploadWidget
+                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                    onUpload={(result) => handleUpload("logoCompany", result.info.secure_url)}
+                  >
+                    {({ open }) => (
+                      <Button
+                        type="button"
+                        onClick={() => open()}
+                        variant="outline"
+                      >
+                        {logoUploaded ? "Logo Uploaded! Click to Reupload" : "Upload Logo"}
+                      </Button>
                     )}
-                  </div>
+                  </CldUploadWidget>
                 </FormControl>
-                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="uniformCompany"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Uniform Image</FormLabel>
+                <FormControl>
+                  <CldUploadWidget
+                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                    onUpload={(result) => handleUpload("uniformCompany", result.info.secure_url)}
+                  >
+                    {({ open }) => (
+                      <Button
+                        type="button"
+                        onClick={() => open()}
+                        variant="outline"
+                      >
+                        {uniformUploaded ? "Uniform  Uploaded! Click to Reupload" : "Upload Uniform"}
+                      </Button>
+                    )}
+                  </CldUploadWidget>
+                </FormControl>
               </FormItem>
             )}
           />

@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,13 +8,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { CirclePlus } from "lucide-react"
-import { useState } from "react"
-import { FormCreateCustomer } from "../FormCreateCustomer"
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import { FormCreateCustomer } from "../FormCreateCustomer";
 
 export function HeaderCompanies() {
-  const [openModalCreate, setOpenModalCreate] = useState(false)
+  const [openModalCreate, setOpenModalCreate] = useState(false);
 
   return (
     <div className="flex items-center justify-between">
@@ -28,7 +27,7 @@ export function HeaderCompanies() {
           <DialogHeader>
             <DialogTitle>Create Customer</DialogTitle>
             <DialogDescription>
-              Create and configure your customer
+              Create and configure your customer. Add logo and uniform images.
             </DialogDescription>
           </DialogHeader>
 
@@ -36,5 +35,5 @@ export function HeaderCompanies() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

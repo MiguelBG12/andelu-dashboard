@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UploadButton } from "@/utils/uploadthing";
+import { CldUploadWidget } from "next-cloudinary";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -34,14 +33,16 @@ const formSchema = z.object({
   country: z.string().min(2),
   website: z.string().min(2),
   phone: z.string().min(9),
-  RUC: z.string().min(11),
-  profileImage: z.string(),
+  CIF: z.string().min(6),
+  logoCompany: z.string(),
+  uniformCompany: z.string(),
 });
 
 export function FormCreateCustomer(props: FormCreateCustomerProps) {
   const { setOpenModalCreate } = props;
   const router = useRouter();
-  const [photoUploaded, setPhotoUploaded] = useState(false);
+  const [logoUploaded, setLogoUploaded] = useState(false);
+  const [uniformUploaded, setUniformUploaded] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,10 +51,23 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
       country: "",
       website: "",
       phone: "",
-      RUC: "",
-      profileImage: "",
+      CIF: "",
+      logoCompany: "",
+      uniformCompany: "",
     },
   });
+
+  const handleUpload = (
+    type: "logoCompany" | "uniformCompany",
+    url: string
+  ) => {
+    form.setValue(type, url);
+    toast({
+      title: `${type === "logoCompany" ? "Logo" : "Uniform"} image uploaded!`,
+    });
+    if (type === "logoCompany") setLogoUploaded(true);
+    else setUniformUploaded(true);
+  };
 
   const { isValid } = form.formState;
 
@@ -70,6 +84,7 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
       });
     }
   };
+
   return (
     <div>
       <Form {...form}>
@@ -80,7 +95,7 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Company Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Company name" type="text" {...field} />
                   </FormControl>
@@ -125,7 +140,7 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
                   <FormLabel>Website</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="www.miguelbautista.com"
+                      placeholder="www.example.com"
                       type="text"
                       {...field}
                     />
@@ -153,12 +168,12 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
             />
             <FormField
               control={form.control}
-              name="RUC"
+              name="CIF"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>RUC</FormLabel>
+                  <FormLabel>CIF</FormLabel>
                   <FormControl>
-                    <Input placeholder="10089863029" type="number" {...field} />
+                    <Input placeholder="B-1234567" type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -166,34 +181,62 @@ export function FormCreateCustomer(props: FormCreateCustomerProps) {
             />
             <FormField
               control={form.control}
-              name="profileImage"
+              name="logoCompany"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Profile Image</FormLabel>
+                  <FormLabel>Logo</FormLabel>
                   <FormControl>
-                    {photoUploaded ? (
-                      <p className="text-sm">Image uploaded!</p>
-                    ) : (
-                      <UploadButton
-                        className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
-                        {...field}
-                        endpoint="profileImage"
-                        onClientUploadComplete={(res) => {
-                          form.setValue("profileImage", res?.[0].url);
-                          toast({
-                            title: "Photo uploaded!",
-                          });
-                          setPhotoUploaded(true);
-                        }}
-                        onUploadError={(error: Error) => {
-                          toast({
-                            title: "Error uploading photo",
-                          });
-                        }}
-                      />
-                    )}
+                    <CldUploadWidget
+                      uploadPreset={
+                        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+                      }
+                      onUpload={(result: { info: { secure_url: string } }) => {
+                        console.log("Upload Result:", result);
+                        handleUpload("logoCompany", result.info.secure_url)
+                      }}
+                    >
+                      {({ open }) => (
+                        <Button
+                          type="button"
+                          onClick={() => open()}
+                          variant="outline"
+                        >
+                          {logoUploaded ? "Logo Uploaded" : "Max. 4mb"}
+                        </Button>
+                      )}
+                    </CldUploadWidget>
                   </FormControl>
-                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="uniformCompany"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Uniform</FormLabel>
+                  <FormControl>
+                    <CldUploadWidget
+                      uploadPreset={
+                        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+                      }
+                      onUpload={(result) =>
+                        handleUpload("uniformCompany", result.info.secure_url)
+                      }
+                    >
+                      {({ open }) => (
+                        <Button
+                          type="button"
+                          onClick={() => open()}
+                          variant="outline"
+                        >
+                          {uniformUploaded
+                            ? "Uniform Uploaded"
+                            : "Upload Uniform"}
+                        </Button>
+                      )}
+                    </CldUploadWidget>
+                  </FormControl>
                 </FormItem>
               )}
             />
